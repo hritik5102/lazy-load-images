@@ -43,7 +43,6 @@ img {
 .image-wrapper::before {
   content: "";
   position: absolute;
-  background-image: url(images/low-resolution-images/image-1.jpg);
   z-index: 1;
   background-size: cover;
   background-position: center;
@@ -53,4 +52,68 @@ img {
 
 .show::before {
   opacity: 0;
+}
+
+[data-image="image-1"]::before {
+  background-image: url(images/low-resolution-images/image-1.jpg);
+}
+
+[data-image="image-2"]::before {
+  background-image: url(images/low-resolution-images/image-2.jpg);
+}
+
+[data-image="image-3"]::before {
+  background-image: url(images/low-resolution-images/image-3.jpg);
+}
+
+[data-image="image-4"]::before {
+  background-image: url(images/low-resolution-images/image-4.jpg);
+}
+
+[data-image="image-5"]::before {
+  background-image: url(images/low-resolution-images/image-5.jpg);
+}
+
+[data-image="image-6"]::before {
+  background-image: url(images/low-resolution-images/image-6.jpg);
+}
+
+[data-image="image-7"]::before {
+  background-image: url(images/low-resolution-images/image-7.jpg);
+}
+
+[data-image="image-8"]::before {
+  background-image: url(images/low-resolution-images/image-8.jpg);
+}
+
+[data-image="image-9"]::before {
+  background-image: url(images/low-resolution-images/image-9.jpg);
+}
+
+[data-image="image-10"]::before {
+  background-image: url(images/low-resolution-images/image-10.jpg);
+}
+
+[data-image="image-11"]::before {
+  background-image: url(images/low-resolution-images/image-11.jpg);
+}
+
+[data-image="image-12"]::before {
+  background-image: url(images/low-resolution-images/image-12.jpg);
+}
+
+[data-image="image-13"]::before {
+  background-image: url(images/low-resolution-images/image-13.jpg);
+}
+
+[data-image="image-14"]::before {
+  background-image: url(images/low-resolution-images/image-14.jpg);
+}
+
+[data-image="image-15"]::before {
+  background-image: url(images/low-resolution-images/image-15.jpg);
+}
+
+[data-image="image-16"]::before {
+  background-image: url(images/low-resolution-images/image-16.jpg);
 }

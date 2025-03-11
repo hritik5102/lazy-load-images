@@ -1,6 +1,13 @@
-const images = document.getElementsByTagName("img");
-const imageWrapper = document.querySelector(".image-wrapper");
+const imageWrappers = document.querySelectorAll(".image-wrapper");
 
-images[0].addEventListener("load", () => {
-  imageWrapper.classList.add("show");
+imageWrappers.forEach((imgWrapper) => {
+  const img = imgWrapper.querySelector("img");
+
+  if (img.complete) {
+    imgWrapper.classList.add("show");
+  } else {
+    img.addEventListener("load", () => {
+      imgWrapper.classList.add("show");
+    });
+  }
 });
