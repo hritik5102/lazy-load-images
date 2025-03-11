@@ -26,10 +26,12 @@ h1 {
 main {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px;
 }
 
 img {
-  width: 50vw;
+  width: 48vw;
   height: 500px;
   object-fit: cover;
 }
