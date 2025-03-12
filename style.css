@@ -54,6 +54,7 @@ img {
   height: 500px;
   object-fit: cover;
   opacity: 0;
+  transition: opacity 0.5s ease-in-out;
 }
 
 .show::before {
