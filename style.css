@@ -62,7 +62,7 @@ img {
   /* Since images are inline by default, they add unwanted whitespace below them due to text-line spacing. This can cause misalignment in layouts. To fix this, use display:block which removes extra whitespace and ensures the image takes up only its own space. */
   display: block;
   width: calc(90vw / 3);
-  height: 500px;
+  height: 600px;
   object-fit: cover;
   opacity: 0;
   transition: opacity 0.5s ease-in-out;
