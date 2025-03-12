@@ -32,6 +32,7 @@ main {
 
 .image-wrapper {
   position: relative;
+  padding: 8px;
 }
 
 .image-wrapper::before {
