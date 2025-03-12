@@ -53,9 +53,11 @@ img {
   width: calc(90vw / 3);
   height: 500px;
   object-fit: cover;
+  opacity: 0;
 }
 
 .show::before {
+  content: "";
   opacity: 0;
 }
 
