@@ -2,6 +2,9 @@
 
 If you open devtools in the browser and go to network tab and then click "image" tab, you will see in total 16 requests is getting fired.
 
+Enable throttling -> fast 4g, and slow 4g to see the impact.
+
+
 ## Step 2: Convert JPG to WEBP using ffmpeg
 
 WebP is a modern image format developed by Google that offers several advantages over traditional formats like JPEG and PNG. Here are the key benefits of using WebP images.
