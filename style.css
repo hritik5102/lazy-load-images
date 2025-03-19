@@ -145,3 +145,24 @@ img {
 [data-image="image-18"]::before {
   background-image: url(images/low-resolution-images/image-18.jpg);
 }
+
+/* Mobile devices (up to 767px) */
+@media (max-width: 767px) {
+  img {
+    width: 90vw;
+  }
+}
+
+/* Tablet devices (768px to 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  img {
+    width: 45vw;
+  }
+}
+
+/* Desktop devices (1024px and above) */
+@media (min-width: 1024px) {
+  img {
+    width: 30vw;
+  }
+}
