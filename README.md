@@ -18,24 +18,13 @@ If you open unsplash, and if you enable throttling to fast 4g, and slow 4g and i
 - https://github.com/woltapp/blurhash
 - https://github.com/mad-gooze/fast-blurhash?tab=readme-ov-file
 
-## Srcset
-
-With srcset attribute, you can save bandwidth by getting different image based on the device pixel ratio (DPR) and resolution, so that you can ensure that people are getting the high resolution images when they need.
-
-You can load images based on the device pixel density on which the end user are in, so if the user are using high pixel density device it's gonna give them a nice high res image if they're on a just regular computer screen with 72 DPI they don't need to load
-the bug heavy images, they can get the lower quality one which one would perfectly fine for them.
-
-Another way, you can load the images based on the width of the viewport they are in, you can different version of the same image and load them based on the viewport which would be bigger in case of desktop, then tablet or mobile.
-
-The image doesn't know what it would be it's size before it's load, so image first has to load in then it knows how big it is. So with "srcset" where we provided a multiple source, we want it load the right image based on the circumstances it's in which is based on the resolution and DPR. So with srcset, it won't load all the images, it will only load the image which matches the circumstances.
-
-## Step 1 : Load high resolution images
+## Load high resolution images
 
 If you open devtools in the browser and go to network tab and then click "image" tab, you will see in total 16 requests is getting fired.
 
 Enable throttling -> fast 4g, and slow 4g to see the impact.
 
-## Step 2: Convert JPG to WEBP using ffmpeg
+## Compress image and convert from JPG to WebP using ffmpeg
 
 WebP is a modern image format developed by Google that offers several advantages over traditional formats like JPEG and PNG. Here are the key benefits of using WebP images.
 
@@ -54,6 +43,19 @@ For eg:
 images/high-resolutions-images/image-1.jpg is of size 5.3M, after conversation image size reduced to 979k, almost 81% of the reduction.
 
 If you open devtools -> go to network tab -> select img, earlier the total download size of 24 images was nearly ~74MB but after reduction it reduced down 10.8MB
+
+## Srcset
+
+With srcset attribute, you can save bandwidth by getting different image based on the device pixel ratio (DPR) and resolution, so that you can ensure that people are getting the high resolution images when they need.
+
+You wouldn't want to force a low-end device to download a very high resolution image, only to downscale it locally. You also don't want high-end devices to upscale low resolution images for a blurry user experience.
+
+You can load images based on the device pixel density on which the end user are in, so if the user are using high pixel density device it's gonna give them a nice high res image if they're on a just regular computer screen with 72 DPI they don't need to load
+the bug heavy images, they can get the lower quality one which one would perfectly fine for them.
+
+Another way, you can load the images based on the width of the viewport they are in, you can different version of the same image and load them based on the viewport which would be bigger in case of desktop, then tablet or mobile.
+
+The image doesn't know what it would be it's size before it's load, so image first has to load in then it knows how big it is. So with "srcset" where we provided a multiple source, we want it load the right image based on the circumstances it's in which is based on the resolution and DPR. So with srcset, it won't load all the images, it will only load the image which matches the circumstances.
 
 ## Note:
 1. If you already know the image dimensions before loading it, then you should add the width and height attributes to your img. This avoids the annoying effect of seeing the content moving around during image loading.
