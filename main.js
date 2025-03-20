@@ -1,4 +1,4 @@
-const imageWrappers = document.querySelectorAll(".image-wrapper");
+const imageWrappers = document.querySelectorAll("picture");
 
 imageWrappers.forEach((imgWrapper) => {
   const img = imgWrapper.querySelector("img");
