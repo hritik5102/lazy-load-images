@@ -1,10 +1,10 @@
-const imageWrappers = document.querySelectorAll("picture");
+const placeholderImages = document.querySelectorAll("picture");
 
-imageWrappers.forEach((imgWrapper) => {
-  const img = imgWrapper.querySelector("img");
+placeholderImages.forEach((placeholderImage) => {
+  const img = placeholderImage.querySelector("img");
 
   img.addEventListener("load", () => {
-    imgWrapper.classList.add("show");
+    placeholderImage.classList.add("hide");
     img.style.opacity = 1;
   });
 });
