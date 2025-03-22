@@ -14,8 +14,10 @@
 - [Create a placeholder image using ffmpeg](#create-a-placeholder-image-using-ffmpeg)
 - [Compress high resolution image using ffmpeg](#compress-high-resolution-image-using-ffmpeg)
 - [Compress image and convert from JPG to WebP using ffmpeg](#compress-image-and-convert-from-jpg-to-webp-using-ffmpeg)
+- [What's advantage of WebP over JPEG or PNG](#whats-advantage-of-webp-over-jpeg-or-png)
 - [Srcset](#srcset)
-- [Note:](#note)
+- [Why images are called replaced elements?](#why-images-are-called-replaced-elements)
+- [Miscellaneous](#miscellaneous)
 
 <!-- /code_chunk_output -->
 
@@ -113,7 +115,7 @@ Now, open `index.html` in your browser. In DevTools, go to the **Network** tab a
 
 To observe the impact, enable **throttling** and switch to **Fast 4G** or **Slow 4G**.
 
-after applying lazy=loading attribute, only 12 images get download and loaded, and rest 4 gets loaded once it's closer to viewport.
+after applying `lazy=loading` attribute, only 12 images get download and loaded, and rest 4 gets loaded once it's closer to viewport.
 
 ## Create a placeholder image using ffmpeg
 
@@ -138,6 +140,10 @@ The quality values range from 1 to 31, where 1 represents the highest quality (a
 
 There are other option to reduce the image size furthur using `-compression_level` which you can explore.
 
+Check the script `compress_high_resolution_image.sh` to compress the jpg image. once the script is executed, if you see `images/high-resolutions-images/image-1.jpg` is of size `5.3M`, after conversation image size reduced to `908k`, almost 81% of the reduction.
+
+If you open devtools -> go to network tab -> select img, earlier the total download size of 24 images was nearly ~74MB but after reduction it reduced down 10.8MB
+
 <p align="center">
  <img src="docs/images/compressed_image.png" width=80%>
 </p>
@@ -145,34 +151,61 @@ There are other option to reduce the image size furthur using `-compression_leve
 ## Compress image and convert from JPG to WebP using ffmpeg
 
 ```bash
-$ ffmpeg -i input.jpg -quality 80 output.webp
+$ ffmpeg -i input.jpg -quality 25 output.webp
 ```
 
 This is used to convert an image (e.g., JPEG, PNG, etc.) to another format (e.g., WebP) while specifying the quality level of the output image. The value 95 is the quality percentage, where: `100` is the highest quality (larger file size) and `0` is the lowest quality (smaller file size).
 
 This option is commonly used when converting images to WebP format, as WebP supports lossy compression with adjustable quality.
 
+We have set the quality level to `25` to ensure that the previously generated compressed image and the WebP image we are generating now have approximately the same size.
+
+Difference in size high resolution image vs WebP image
+
+<p align="center">
+ <img src="docs/images/high-resolution-image-vs-webp.png" width=80%>
+</p>
+
+Difference in size compressed high resolution image (jpg) vs WebP image
+
+<p align="center">
+ <img src="docs/images/compressed-high-resolution-image-jpg-vs-webp.png" width=80%>
+</p>
+
+Note: If you observe closely, there is no significant difference in size between JPG and WebP images. You can choose whichever format suits you best.
+
+## What's advantage of WebP over JPEG or PNG
+
 WebP is a modern image format developed by Google that offers several advantages over traditional formats like JPEG and PNG. Here are the key benefits of using WebP images.
 
 WebP provides better compression efficiency compared to JPEG and PNG, resulting in smaller file sizes without sacrificing quality.
-
-Lossy Compression: WebP lossy images are typically 25-34% smaller than equivalent JPEG images at the same quality level.
-
-Lossless Compression: WebP lossless images are 26% smaller than PNG images on average.
+- Lossy Compression: WebP lossy images are typically 25-34% smaller than equivalent JPEG images at the same quality level.
+- Lossless Compression: WebP lossless images are 26% smaller than PNG images on average.
 
 Smaller image sizes mean faster loading times for web pages, which improves user experience and SEO rankings. WebP is particularly beneficial for mobile users with limited bandwidth.
 
-- https://caniuse.com/webp
-
-For eg:
-
-images/high-resolutions-images/image-1.jpg is of size 5.3M, after conversation image size reduced to 979k, almost 81% of the reduction.
-
-If you open devtools -> go to network tab -> select img, earlier the total download size of 24 images was nearly ~74MB but after reduction it reduced down 10.8MB
+Ref: https://caniuse.com/webp
 
 ## Srcset
 
 With srcset attribute, you can save bandwidth by getting different image based on the device pixel ratio (DPR) and resolution, so that you can ensure that people are getting the high resolution images when they need.
+
+```html
+<picture data-image="image-1">
+  <img
+    src="images/webp-images/image-1.webp"
+    alt="High resolution"
+    width="30vw"
+    height="600px"
+    loading="lazy"
+    srcset="
+      images/resize-images/image-1/image1-400w.jpg  1x,
+      images/resize-images/image-1/image1-800w.jpg  2x,
+      images/resize-images/image-1/image1-1200w.jpg 3x
+    "
+  />
+</picture>
+```
 
 You wouldn't want to force a low-end device to download a very high resolution image, only to downscale it locally. You also don't want high-end devices to upscale low resolution images for a blurry user experience.
 
@@ -181,7 +214,46 @@ the bug heavy images, they can get the lower quality one which one would perfect
 
 Another way, you can load the images based on the width of the viewport they are in, you can different version of the same image and load them based on the viewport which would be bigger in case of desktop, then tablet or mobile.
 
-The image doesn't know what it would be it's size before it's load, so image first has to load in then it knows how big it is. So with "srcset" where we provided a multiple source, we want it load the right image based on the circumstances it's in which is based on the resolution and DPR. So with srcset, it won't load all the images, it will only load the image which matches the circumstances.
+```html
+<picture data-image="image-1">
+  <img
+    src="images/webp-images/image-1.webp"
+    alt="High resolution"
+    width="30vw"
+    height="600px"
+    loading="lazy"
+    srcset="
+      images/resize-images/image-1/image1-400w.jpg   400w,
+      images/resize-images/image-1/image1-800w.jpg   800w,
+      images/resize-images/image-1/image1-1200w.jpg 1200w
+    "
+    sizes="(max-width: 600px) 400px, (max-width: 1200px) 800px, 1200px"
+  />
+</picture>
+```
+With srcset, where we provide multiple sources, we want the browser to load the right image based on the circumstances—such as resolution and device pixel ratio (DPR). This ensures that instead of loading all images, the browser only loads the one that best matches the requirements.
 
-## Note:
-2. Imgbot - Automatic image compression tool which is available inside github, once you push the changes, it will reduce down your images to some percentage.
+## Why images are called replaced elements?
+
+1. Externally Defined Content
+   - The content of a replaced element comes from an external source, such as an image file (e.g., `<img src="image.jpg">`) or an embedded object (e.g., `<iframe>`, `<video>`).
+   - The browser fetches the external resource and replaces the element with it.
+
+2. Intrinsic Dimensions
+    - Replaced elements have intrinsic dimensions (width and height) defined by the external resource. For example, an image has its own width and height based on the image file.
+    - If no explicit dimensions are set in the HTML or CSS, the browser uses the intrinsic dimensions of the resource.
+
+3. Not Affected by CSS Styling
+   - The content of a replaced element is not affected by CSS styles applied to the element itself. For example, you cannot change the pixels of an image using CSS (though you can resize or transform it).
+
+4. Examples of Replaced Elements
+    - `<img>` (images)
+    - `<video>` (videos)
+    - `<iframe>` (embedded content)
+    - `<input type="image">` (image inputs)
+    - `<object>` (embedded objects)
+    - `<canvas>` (when it contains rendered content)
+
+## Miscellaneous
+
+1. Imgbot - Automatic image compression tool which is available inside github, once you push the changes, it will reduce down your images to some percentage.
