@@ -1,5 +1,5 @@
-
-<!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
+# Table of content
+<!-- @import "[TOC]" {cmd="toc" depthFrom=2 depthTo=6 orderedList=false} -->
 
 <!-- code_chunk_output -->
 
@@ -12,7 +12,7 @@
 - [Unsplash uses this to create a blurred placeholder image](#unsplash-uses-this-to-create-a-blurred-placeholder-image)
 - [Load High-Resolution Images](#load-high-resolution-images)
 - [Create a placeholder image using ffmpeg](#create-a-placeholder-image-using-ffmpeg)
-- [Compress high resolution image](#compress-high-resolution-image)
+- [Compress high resolution image using ffmpeg](#compress-high-resolution-image-using-ffmpeg)
 - [Compress image and convert from JPG to WebP using ffmpeg](#compress-image-and-convert-from-jpg-to-webp-using-ffmpeg)
 - [Srcset](#srcset)
 - [Note:](#note)
@@ -22,6 +22,10 @@
 ## Unsplash implements lazy loading of images too
 
 If you open Unsplash and enable throttling to `Fast 4G` or `Slow 4G`, then scroll quickly, you'll notice that low-resolution (blurred) images appear first while high-resolution images load in the background. This serves as inspiration for creating a similar effect using lazy loading—an effective image optimization technique.
+
+<p align="center">
+<img src="docs/images/unsplash.png" width=80%>
+</p>
 
 ## Why browser-level lazy loading?
 
@@ -36,7 +40,7 @@ Either option can let developers include lazy loading behavior, and many develop
 
 With lazy loading supported directly by the browser, however, there's no need for an external library. Browser-level lazy loading also ensures that loading of images still works even if the client disables JavaScript. Note however that loading is only deferred when JavaScript is enabled.
 
-Ref: [Browser-level image lazy loading for the web](https://web.dev/articles/browser-level-image-lazy-loading)
+**Ref**: [Browser-level image lazy loading for the web](https://web.dev/articles/browser-level-image-lazy-loading)
 
 ## Default loading behaviour of images are "eager"
 
@@ -48,15 +52,15 @@ The `loading="lazy"` attribute is widely supported across modern browsers, allow
 
 Chrome loads images at different priorities depending on where they're located relative to the device viewport. Images below the viewport are loaded with a lower priority, but they're still fetched as the page loads.
 
-Ref: [Can I Use - loading="lazy" Attribute](https://caniuse.com/loading-lazy-attr)
+**Ref**: [Can I Use - loading="lazy" Attribute](https://caniuse.com/loading-lazy-attr)
 
 `loading="lazy"` not supported in:
-❌ Safari (macOS & iOS) before version 16.4
-❌ Internet Explorer (IE)
+- Safari (macOS & iOS) before version 16.4
+- Internet Explorer (IE)
 
-Since Safari (before v16.4) and older browsers don’t support loading="lazy", you can use JavaScript Intersection Observer as a fallback.
+Since Safari (before v16.4) and older browsers don’t support `loading="lazy"`, you can use JavaScript Intersection Observer as a fallback.
 
-Note:
+**Note**:
 - lazy loading may not always improve performance if overused.
 - While using lazy loading, make sure to provide a image dimension beforehand.
 
@@ -65,6 +69,10 @@ Note:
 While the browser loads an image, it doesn't immediately know the image's dimensions, unless they're explicitly specified.
 
 To let the browser reserve enough space on a page for images, and avoid disruptive layout shifts, we recommend adding width and height attributes to all `<img>` tags.
+
+<p align="center">
+    <img src="docs/images/give-your-images-dimension-attributes.jpg" width=60%>
+</p>
 
 This prevents the annoying content shift that occurs during image loading, also known as **layout shift**.
 
@@ -78,11 +86,15 @@ In most scenarios, images still lazy load if you don't specify dimensions, but t
 
 A lightweight library optimized for lazy loading images with placeholders.
 
-Ref: [NPM - react-lazy-load-image-component](https://www.npmjs.com/package/react-lazy-load-image-component)
+**Ref**: [NPM - react-lazy-load-image-component](https://www.npmjs.com/package/react-lazy-load-image-component)
 
 ## Unsplash uses this to create a blurred placeholder image
 
 BlurHash is a compact representation of a placeholder for an image.
+
+<p align="center">
+<img src="docs/images/blurhash.png" width=80%>
+</p>
 
 Read more:
 - [BlurHash](https://blurha.sh/)
@@ -93,8 +105,8 @@ Read more:
 
 Check out the initial code using:
 
-```sh
-git checkout 50bb7f1
+```bash
+$ git checkout 50bb7f1
 ```
 
 Now, open `index.html` in your browser. In DevTools, go to the **Network** tab and select the **Images** filter—you'll see a total of 16 image requests being made.
@@ -105,30 +117,34 @@ after applying lazy=loading attribute, only 12 images get download and loaded, a
 
 ## Create a placeholder image using ffmpeg
 
-```sh
+```bash
 $ ffmpeg -i input.jpg -vf scale=20:-1 output.jpg
 ```
 
 The `-vf scale=20:-1` option in FFmpeg applies a video filter (-vf) to resize the image/video while maintaining its aspect ratio.
 
-Breaking It Down:
+Breaking it down:
 - `scale=20:-1` → Rescales the video width to 20 pixels while automatically adjusting the height.
 - `20` → Sets the width to 20 pixels.
 - `-1` → Automatically calculates the height to maintain the original aspect ratio.
 
 ## Compress high resolution image using ffmpeg
 
-```sh
-ffmpeg -i input.jpg -q:v 15 output.jpg
+```bash
+$ ffmpeg -i input.jpg -q:v 15 output.jpg
 ```
 
 The quality values range from 1 to 31, where 1 represents the highest quality (and largest file size) and 31 represents the lowest quality (and smallest file size).
 
 There are other option to reduce the image size furthur using `-compression_level` which you can explore.
 
+<p align="center">
+ <img src="docs/images/compressed_image.png" width=80%>
+</p>
+
 ## Compress image and convert from JPG to WebP using ffmpeg
 
-```sh
+```bash
 $ ffmpeg -i input.jpg -quality 80 output.webp
 ```
 
