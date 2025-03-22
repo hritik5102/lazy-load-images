@@ -20,7 +20,7 @@ do
     fi
 
     # Compress the image using ffmpeg
-    ffmpeg -i "$input_image" -quality 30 "$output_image"
+    ffmpeg -i "$input_image" -quality 25 "$output_image"
 
     # Check if the ffmpeg command was successful
     if [ $? -eq 0 ]; then
